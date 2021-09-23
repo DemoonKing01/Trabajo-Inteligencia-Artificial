@@ -1,160 +1,121 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace Proyecto2_Pilas
 {
     class Program
     {
-        static void Main(string[] args)
+        class EjemploPila
         {
+            private int Max;
+            private int Top;
+            int[] pila;
 
-            Console.WriteLine("Bienvenido");
-            Console.WriteLine(); 
-            Console.WriteLine("--------------------");
-            Console.WriteLine("1-Ver lista");
-            Console.WriteLine("2-Añadir un Nombre");
-            Console.WriteLine("3-Eliminar un Nombre");
-            Console.WriteLine("4-Buscar un Nombre");
-            Console.WriteLine("--------------------");
-            Console.WriteLine("Introduzca un numero");
-            Console.WriteLine();
 
-            int Tarea = Convert.ToInt32(Console.ReadLine());
-
-            List<string> Lista = new List<string>();
-
-            Lista.Add("Angel");
-            Lista.Add("Jose");
-            Lista.Add("Maria");
-            Lista.Add("Jessica");
-            Lista.Add("Juan");
-
-            if (Tarea == 1)
+            public EjemploPila(int tamaño)
             {
-                Console.Clear();
-                foreach (string nombre in Lista)
-                {
-                    Console.WriteLine(nombre);
-                    
-                }
-                Console.WriteLine();
-                Console.WriteLine("Presione cualquier tecla para salir......");
-                Console.ReadKey();
+                Max = tamaño;
+                Top = 0;
+                pila = new int[tamaño];
             }
 
-            if (Tarea == 2)
+            private bool Llena()
             {
-                Console.Clear();
-                Console.Write("Ingrese el nombre: ");
-                string var = Console.ReadLine();
-                Lista.Add(var);
+                if (Top == Max) return true;
+                return false;
+            }
+            private bool Vacia()
+            {
+                if (Top == 0) return true;
+                return false;
+            }
 
-                Console.WriteLine();
-                Console.WriteLine("Escriba 1 para ver la Lista");
-                Console.WriteLine("Escriba 2 cerrar el programa");
-                int Option = Convert.ToInt32(Console.ReadLine());
+            public bool Push(int dato)
+            {
+                if (!Llena())
+                {
+                    pila[Top] = dato;
+                    Top++;
+                    return true;
+                }
+                else return false;
+            }
 
-                if (Option == 1)
+            public bool Pop()
+            {
+                if (!Vacia())
+                {
+                    Top--;
+                    return true;
+                }
+                else return false;
+            }
+
+            public string Mostrar()
+            {
+                string resultado = "";
+                if (!Vacia())
+                {
+                    for (int i = 0; i < Top; i++)
+                    {
+                        resultado += "Posicion: " + i + " Dato: " + pila[i] + "\n";
+                    }
+                    resultado += "Top: " + Top;
+                    resultado += "Maximo: " + Max;
+                    return resultado;
+                }
+                else return resultado = "Pila vacia";
+            }
+
+            public void Vaciar()
+            {
+                Top = 0;
+            }
+
+            static void Main(string[] args)
+            {
+                EjemploPila pila = new EjemploPila(10);
+                int respuesta;
+                do
                 {
                     Console.Clear();
-                    foreach (string nombre in Lista)
+                    Console.WriteLine("Ejemplo de pila");
+                    Console.WriteLine("1.- Insertar dato");
+                    Console.WriteLine("2.- Eliminar dato");
+                    Console.WriteLine("3.- Mostrar datos");
+                    Console.WriteLine("4.- Vaciar datos");
+                    int opcion = int.Parse(Console.ReadLine());
+                    switch (opcion)
                     {
-                        Console.WriteLine(nombre);
+                        case 1:
+                            Console.WriteLine("Ingrese un numero: ");
+                            if (pila.Push(int.Parse(Console.ReadLine()))) Console.WriteLine("Dato insertado con exito");
+                            else Console.WriteLine("error");
 
+                            break;
+                        case 2:
+                            if (pila.Pop()) Console.WriteLine("Dato eliminado con exito");
+                            else Console.WriteLine("ocurrio un error");
+                            break;
+                        case 3:
+                            Console.WriteLine(pila.Mostrar());
+                            break;
+                        case 4:
+                            pila.Vaciar();
+                            break;
+                        default:
+                            Console.WriteLine("No existe opcion");
+                            break;
                     }
-                    Console.WriteLine();
-                    Console.WriteLine("Presione cualquier tecla para salir......");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("Programa terminado.....");
-                    Console.ReadKey();
-                }
+
+                    Console.WriteLine("¿Desea realizar otra opcion?");
+                    Console.WriteLine("SI= 1 ------- NO=2");
+                    respuesta = int.Parse(Console.ReadLine());
+                } while (respuesta == 1);
             }
-
-            if (Tarea == 3)
-            {
-                Console.Clear();
-                foreach (string nombre in Lista)
-                {
-                    Console.WriteLine(nombre);
-
-                }
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.Write("Ingrese el nombre  a remover : ");
-                string var = Console.ReadLine();
-                Lista.Remove(var);
-
-                Console.WriteLine();
-                Console.WriteLine("Escriba 1 para ver la Lista");
-                Console.WriteLine("Escriba 2 cerrar el programa");
-                Console.WriteLine();
-                int Option = Convert.ToInt32(Console.ReadLine());
-
-                if (Option == 1)
-                {
-                    Console.Clear();
-                    foreach (string nombre in Lista)
-                    {
-                        Console.WriteLine(nombre);
-
-                    }
-                    Console.WriteLine();
-                    Console.WriteLine("Presione cualquier tecla para salir......");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("Programa terminado.....");
-                    Console.ReadKey();
-                }
-            }
-
-            if (Tarea == 4)
-            {
-                Console.Clear();
-                Console.Write("Ingrese el nombre  a Buscar : ");
-                string var = Console.ReadLine();
-
-                if (var == "Angel")
-                {
-                    Console.WriteLine("Ese nombre se encuentra en la lista");
-                    Console.WriteLine();
-
-                    if (var == "Jose")
-                    {
-                        Console.WriteLine("Ese nombre se encuentra en la lista");
-                        Console.WriteLine();
-
-                        if (var == "Maria")
-                        {
-                            Console.WriteLine("Ese nombre se encuentra en la lista");
-                            Console.WriteLine();
-
-                            if (var == "Jessica")
-                            {
-                                Console.WriteLine("Ese nombre se encuentra en la lista");
-                                Console.WriteLine();
-
-                                if (var == "Juan")
-                                {
-                                    Console.WriteLine("Ese nombre se encuentra en la lista");
-                                    Console.WriteLine();
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Ese nombre no se encuentra en esta lista...");
-                    Console.WriteLine();
-                }
-            }
-            Console.ReadKey();
         }
     }
-}
+    }
